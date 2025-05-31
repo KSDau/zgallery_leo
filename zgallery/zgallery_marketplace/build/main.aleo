@@ -60,7 +60,7 @@ finalize list:
 
 function cancel:
     input r0 as ReceiptSeller.record;
-    input r1 as zgallery_nft.aleo/NFTView.record;
+    input r1 as zgallery_nft.aleo/NftView.record;
     call zgallery_nft.aleo/transfer_public_to_private r1 self.signer into r2 r3;
     async cancel r0.listing_id r3 into r4;
     output r2 as zgallery_nft.aleo/NFT.record;
@@ -104,7 +104,7 @@ finalize purchase:
 
 function approve:
     input r0 as ReceiptSeller.record;
-    input r1 as zgallery_nft.aleo/NFTView.record;
+    input r1 as zgallery_nft.aleo/NftView.record;
     input r2 as field.private;
     input r3 as group.private;
     mul r0.listing_private_key r3 into r4;
@@ -115,7 +115,7 @@ function approve:
     async approve r0.listing_id into r9;
     cast r7 r0.listing_id self.signer into r10 as ReceiptBuyer.record;
     output r10 as ReceiptBuyer.record;
-    output r8 as zgallery_nft.aleo/NFTView.record;
+    output r8 as zgallery_nft.aleo/NftView.record;
     output r9 as zgallery_marketplace.aleo/approve.future;
 
 finalize approve:
@@ -128,16 +128,17 @@ finalize approve:
 
 function reject:
     input r0 as ReceiptSeller.record;
-    input r1 as field.private;
-    input r2 as group.private;
-    input r3 as u64.private;
-    mul r0.listing_private_key r2 into r4;
+    input r1 as u64.private;
+    input r2 as field.private;
+    input r3 as group.private;
+    mul r0.listing_private_key r3 into r4;
     hash.bhp256 r4 into r5 as field;
-    sub r1 r5 into r6;
+    sub r2 r5 into r6;
     cast r6 into r7 as address;
-    call credits.aleo/transfer_public_to_private r7 r3 into r8 r9;
-    async reject r0.listing_id r3 r9 into r10;
-    output r0 as ReceiptSeller.record;
+    call credits.aleo/transfer_public_to_private r7 r1 into r8 r9;
+    async reject r0.listing_id r1 r9 into r10;
+    cast r0.owner r0.listing_id r0.listing_private_key into r11 as ReceiptSeller.record;
+    output r11 as ReceiptSeller.record;
     output r8 as credits.aleo/credits.record;
     output r10 as zgallery_marketplace.aleo/reject.future;
 
@@ -155,7 +156,7 @@ finalize reject:
 
 function validate:
     input r0 as ReceiptBuyer.record;
-    input r1 as zgallery_nft.aleo/NFTView.record;
+    input r1 as zgallery_nft.aleo/NftView.record;
     input r2 as u64.private;
     input r3 as field.private;
     hash.bhp256 r1.data into r4 as field;

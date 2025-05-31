@@ -13,7 +13,7 @@ program zgallery_nft.aleo {
         private edition: scalar,
     }
 
-    record NFTView {
+    record NftView {
         private owner: address,
         private data: data,
         private edition: scalar,
@@ -72,8 +72,8 @@ program zgallery_nft.aleo {
     async transition transfer_private_to_public(
         nft: NFT,
         public to: address,
-    ) -> (NFTView, Future) {
-        let nft_view: NFTView = NFTView {
+    ) -> (NftView, Future) {
+        let nft_view: NftView = NftView {
             owner: to,
             data: nft.data,
             edition: nft.edition,
@@ -95,8 +95,8 @@ program zgallery_nft.aleo {
     async transition transfer_private_to_sc(
         nft: NFT,
         public to: address,
-    ) -> (NFTView, Future) {
-        let nft_view: NFTView = NFTView {
+    ) -> (NftView, Future) {
+        let nft_view: NftView = NftView {
             owner: self.signer,
             data: nft.data,
             edition: nft.edition,
@@ -116,10 +116,10 @@ program zgallery_nft.aleo {
 
 
     async transition transfer_public(
-        private old_nft_view: NFTView,
+        private old_nft_view: NftView,
         public to: address,
-    ) -> (NFTView, Future) {
-        let new_nft_view: NFTView = NFTView {
+    ) -> (NftView, Future) {
+        let new_nft_view: NftView = NftView {
             owner: to,
             data: old_nft_view.data,
             edition: old_nft_view.edition,
@@ -144,7 +144,7 @@ program zgallery_nft.aleo {
 
 
     async transition transfer_public_to_private(
-        private nft_view: NFTView,
+        private nft_view: NftView,
         private to: address,
     ) -> (NFT, Future){
         let nft_commit: field = commit_nft(nft_view.data, nft_view.edition);
@@ -170,10 +170,10 @@ program zgallery_nft.aleo {
 
 
     transition transfer_nft_view(
-        private nft_view: NFTView,
+        private nft_view: NftView,
         private to: address,
-    ) -> NFTView {
-        return NFTView {
+    ) -> NftView {
+        return NftView {
             owner: to,
             data: nft_view.data,
             edition: nft_view.edition,

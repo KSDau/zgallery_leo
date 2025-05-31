@@ -98,7 +98,7 @@ program zgallery_marketplace.aleo {
     ) -> (ReceiptSeller, Future) {
         let nft_commit: field = commit_nft(nft.data, nft.edition);
         let (nft_view, transfer_future): (
-            zgallery_nft.aleo/NFTView, Future
+            zgallery_nft.aleo/NftView, Future
         ) = zgallery_nft.aleo/transfer_private_to_public(nft, self.address);
 
         let listing_private_key: scalar = rand;
@@ -135,7 +135,7 @@ program zgallery_marketplace.aleo {
 
     async transition cancel(
         receipt_seller: ReceiptSeller,
-        nft_view: zgallery_nft.aleo/NFTView,
+        nft_view: zgallery_nft.aleo/NftView,
     ) -> (zgallery_nft.aleo/NFT, Future) {
         let (nft, nft_future): (
             zgallery_nft.aleo/NFT, Future
@@ -201,12 +201,12 @@ program zgallery_marketplace.aleo {
 
     async transition approve(
         receipt_seller: ReceiptSeller,
-        old_nft_view: zgallery_nft.aleo/NFTView,
+        old_nft_view: zgallery_nft.aleo/NftView,
         c: field,
         N: group,
-    ) -> (ReceiptBuyer, zgallery_nft.aleo/NFTView, Future) {
+    ) -> (ReceiptBuyer, zgallery_nft.aleo/NftView, Future) {
         let buyer : address = decrypt_message(c, N, receipt_seller.listing_private_key) as address ;
-        let new_nft_view: zgallery_nft.aleo/NFTView = zgallery_nft.aleo/transfer_nft_view(old_nft_view, buyer);
+        let new_nft_view: zgallery_nft.aleo/NftView = zgallery_nft.aleo/transfer_nft_view(old_nft_view, buyer);
         let approve_future: Future = finalize_approve(receipt_seller.listing_id);
         let receipt_buyer: ReceiptBuyer = ReceiptBuyer {
             owner: buyer,
@@ -272,7 +272,7 @@ program zgallery_marketplace.aleo {
 
     async transition validate(
         receipt_buyer: ReceiptBuyer,
-        nft_view: zgallery_nft.aleo/NFTView,
+        nft_view: zgallery_nft.aleo/NftView,
         price: u64,
         form_answer: field
     ) -> (zgallery_nft.aleo/NFT, credits.aleo/credits, DataLog, Future) {

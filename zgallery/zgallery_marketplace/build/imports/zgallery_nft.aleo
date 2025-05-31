@@ -10,7 +10,7 @@ record NFT:
     data as data.private;
     edition as scalar.private;
 
-record NFTView:
+record NftView:
     owner as address.private;
     data as data.private;
     edition as scalar.private;
@@ -50,11 +50,11 @@ function transfer_private:
 function transfer_private_to_public:
     input r0 as NFT.record;
     input r1 as address.public;
-    cast r1 r0.data r0.edition true into r2 as NFTView.record;
+    cast r1 r0.data r0.edition true into r2 as NftView.record;
     hash.bhp256 r0.data into r3 as field;
     commit.bhp256 r3 r0.edition into r4 as field;
     async transfer_private_to_public r4 r1 into r5;
-    output r2 as NFTView.record;
+    output r2 as NftView.record;
     output r5 as zgallery_nft.aleo/transfer_private_to_public.future;
 
 finalize transfer_private_to_public:
@@ -65,11 +65,11 @@ finalize transfer_private_to_public:
 function transfer_private_to_sc:
     input r0 as NFT.record;
     input r1 as address.public;
-    cast self.signer r0.data r0.edition true into r2 as NFTView.record;
+    cast self.signer r0.data r0.edition true into r2 as NftView.record;
     hash.bhp256 r0.data into r3 as field;
     commit.bhp256 r3 r0.edition into r4 as field;
     async transfer_private_to_sc r4 r1 into r5;
-    output r2 as NFTView.record;
+    output r2 as NftView.record;
     output r5 as zgallery_nft.aleo/transfer_private_to_sc.future;
 
 finalize transfer_private_to_sc:
@@ -78,13 +78,13 @@ finalize transfer_private_to_sc:
     set r1 into nft_owners[r0];
 
 function transfer_public:
-    input r0 as NFTView.record;
+    input r0 as NftView.record;
     input r1 as address.public;
-    cast r1 r0.data r0.edition true into r2 as NFTView.record;
+    cast r1 r0.data r0.edition true into r2 as NftView.record;
     hash.bhp256 r0.data into r3 as field;
     commit.bhp256 r3 r0.edition into r4 as field;
     async transfer_public r4 r0.owner r1 into r5;
-    output r2 as NFTView.record;
+    output r2 as NftView.record;
     output r5 as zgallery_nft.aleo/transfer_public.future;
 
 finalize transfer_public:
@@ -96,7 +96,7 @@ finalize transfer_public:
     set r2 into nft_owners[r0];
 
 function transfer_public_to_private:
-    input r0 as NFTView.record;
+    input r0 as NftView.record;
     input r1 as address.private;
     hash.bhp256 r0.data into r2 as field;
     commit.bhp256 r2 r0.edition into r3 as field;
@@ -113,7 +113,7 @@ finalize transfer_public_to_private:
     remove nft_owners[r0];
 
 function transfer_nft_view:
-    input r0 as NFTView.record;
+    input r0 as NftView.record;
     input r1 as address.private;
-    cast r1 r0.data r0.edition true into r2 as NFTView.record;
-    output r2 as NFTView.record;
+    cast r1 r0.data r0.edition true into r2 as NftView.record;
+    output r2 as NftView.record;
