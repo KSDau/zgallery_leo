@@ -25,14 +25,17 @@ mapping nft_owners:
     value as address.public;
 
 function mint_private:
-    input r0 as data.private;
-    input r1 as scalar.private;
-    cast self.signer r0 r1 into r2 as NFT.record;
-    hash.bhp256 r0 into r3 as field;
-    commit.bhp256 r3 r1 into r4 as field;
-    async mint_private r4 into r5;
-    output r2 as NFT.record;
-    output r5 as zgallery_nft.aleo/mint_private.future;
+    input r0 as field.private;
+    input r1 as address.private;
+    input r2 as field.private;
+    input r3 as scalar.private;
+    cast r0 r1 r2 into r4 as data;
+    cast self.signer r4 r3 into r5 as NFT.record;
+    hash.bhp256 r4 into r6 as field;
+    commit.bhp256 r6 r3 into r7 as field;
+    async mint_private r7 into r8;
+    output r5 as NFT.record;
+    output r8 as zgallery_nft.aleo/mint_private.future;
 
 finalize mint_private:
     input r0 as field.public;

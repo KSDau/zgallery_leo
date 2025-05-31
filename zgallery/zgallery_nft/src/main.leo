@@ -38,9 +38,16 @@ program zgallery_nft.aleo {
 
 
     async transition mint_private(
-        private nft_data: data,
+        private metadata: field,
+        private brand: address,
+        private form: field,
         private nft_edition: scalar
     ) -> (NFT, Future) {
+        let nft_data: data = data {
+            metadata: metadata,
+            brand: brand,
+            form: form
+        };
         let nft: NFT = NFT {
             owner: self.signer,
             data: nft_data,

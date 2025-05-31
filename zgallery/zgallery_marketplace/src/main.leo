@@ -144,8 +144,6 @@ program zgallery_marketplace.aleo {
 
         return (nft, cancel_future);
     }
-
-
     async function finalize_cancel(listing_id: field, nft_future: Future){
         let listing: Listing = listings.get(listing_id);
         assert_eq(listing.purchased, false);
